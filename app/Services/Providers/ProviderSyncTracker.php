@@ -123,6 +123,7 @@ class ProviderSyncTracker
     public function markFailed(ProviderSyncLog $log, string $message): void
     {
         $finishedAt = now();
+        $message = $this->safeErrorMessage($message);
 
         $log->update([
             'status' => 'failed',
@@ -142,6 +143,7 @@ class ProviderSyncTracker
     public function markSkipped(ProviderSyncLog $log, string $message): void
     {
         $finishedAt = now();
+        $message = $this->safeErrorMessage($message);
 
         $log->update([
             'status' => 'skipped',
@@ -175,5 +177,10 @@ class ProviderSyncTracker
         }
 
         return (int) $startedAt->diffInMilliseconds($finishedAt, true);
+    }
+
+    private function safeErrorMessage(string $message): string
+    {
+        return mb_substr($message, 0, 60000);
     }
 }

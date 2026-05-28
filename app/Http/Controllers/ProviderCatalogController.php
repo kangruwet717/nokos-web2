@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SyncSmsbowerCatalogJob;
 use App\Models\Country;
 use App\Models\OtpService;
 use App\Models\ServicePrice;
-use App\Jobs\SyncSmsbowerCatalogJob;
 use App\Services\Providers\ProviderSyncTracker;
 use App\Support\ProviderSyncStatus;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class ProviderCatalogController extends Controller
 {
@@ -56,6 +56,55 @@ class ProviderCatalogController extends Controller
                     ->when($selectedCountry, fn ($query) => $query->where('country_id', $selectedCountry->id));
             }])
             ->when($request->filled('service_q'), fn ($query) => $query->where('name', 'like', $validated['service_q'].'%'))
+            ->orderByRaw("case 
+                when name = 'WhatsApp' then 0
+                when name = 'Telegram' then 1
+                when name = 'Google' then 2
+                when name = 'Google Chat' then 3
+                when name = 'Facebook' then 4
+                when name = 'Instagram' then 5
+                when name = 'TikTok' then 6
+                when name = 'YouTube' then 7
+                when name in ('Twitter', 'X') then 8
+                when name = 'Discord' then 9
+                when name = 'Netflix' then 10
+                when name = 'Spotify' then 11
+                when name = 'Snapchat' then 12
+                when name = 'LinkedIn' then 13
+                when name = 'Reddit' then 14
+                when name = 'PayPal' then 15
+                when name = 'Amazon' then 16
+                when name = 'Apple' then 17
+                when name = 'Microsoft' then 18
+                when name = 'Steam' then 19
+                when name = 'Binance' then 20
+                when name = 'Shopee' then 21
+                when name = 'Tokopedia' then 22
+                when name = 'Gojek' then 23
+                when name = 'Grab' then 24
+                when name = 'LINE' then 25
+                when name = 'KakaoTalk' then 26
+                when name = 'WeChat' then 27
+                when name = 'Viber' then 28
+                when name = 'Signal' then 29
+                when name = 'Skype' then 30
+                when name = 'Tinder' then 31
+                when name = 'Uber' then 32
+                when name = 'Airbnb' then 33
+                when name = 'Yahoo' then 34
+                when name = 'Naver' then 35
+                when name = 'Bolt' then 36
+                when name = 'Aws' then 37
+                when name = 'Adobe' then 38
+                when name = 'Textnow' then 39
+                when name = 'ShareChat' then 40
+                when name = 'Tumblr' then 41
+                when name = 'DocuSign' then 42
+                when name = 'DigitalOcean' then 43
+                when name = 'Cursor' then 44
+                when name = 'Grok' then 45
+                else 99 
+            end")
             ->orderBy('name');
 
         if (! $selectedCountry && ! $request->filled('service_q')) {

@@ -14,28 +14,32 @@ use RuntimeException;
 class PaymentService
 {
     public function __construct(
-        private readonly PaymentGatewayInterface $gateway,
+        private readonly PaymentGatewayManager $gateways,
         private readonly WalletService $wallet,
         private readonly AuditLogService $audit,
     ) {}
 
-    public function createTopUpInvoice(User $user, string $amount): PaymentInvoice
+    public function createTopUpInvoice(User $user, string $amount, string $paymentMethod = 'qris1'): PaymentInvoice
     {
-        $this->assertTopUpAmount($amount);
+        $this->assertTopUpAmount($amount, $paymentMethod);
+        $provider = $this->gateways->providerForMethod($paymentMethod);
+        $payableAmount = $this->payableAmount($amount, $provider);
+        $gateway = $this->gateways->gateway($provider);
 
         $invoice = PaymentInvoice::create([
             'invoice_no' => $this->generateInvoiceNo(),
             'user_id' => $user->id,
-            'provider' => 'dompetx',
+            'provider' => $provider,
             'idempotency_key' => (string) Str::uuid(),
-            'amount' => $amount,
+            'amount' => $payableAmount,
             'net_amount' => $amount,
             'status' => 'pending',
+            'payment_method' => $paymentMethod,
         ]);
 
         try {
-            $response = $this->gateway->createCheckout([
-                'amount' => (int) $amount,
+            $response = $gateway->createCheckout([
+                'amount' => (int) $payableAmount,
                 'currency' => 'IDR',
                 'reference' => $invoice->invoice_no,
                 'metadata' => [
@@ -125,7 +129,7 @@ class PaymentService
             return $invoice;
         }
 
-        $response = $this->gateway->checkCheckoutStatus($invoice->external_id);
+        $response = $this->gateways->gateway($invoice->provider)->checkCheckoutStatus($invoice->external_id);
         $status = $this->normalizeStatus($response['status'] ?? null);
 
         DB::transaction(function () use ($invoice, $response, $status) {
@@ -220,7 +224,7 @@ class PaymentService
         $amount = (string) ($data['amount'] ?? $invoice->amount);
 
         if (bccomp($amount, (string) $invoice->amount, 2) !== 0) {
-            throw new RuntimeException('DompetX paid amount does not match invoice amount.');
+            throw new RuntimeException('Paid amount does not match invoice amount.');
         }
 
         $invoice->forceFill([
@@ -237,7 +241,7 @@ class PaymentService
             'topup',
             $invoice,
             "Top up {$invoice->invoice_no}",
-            ['provider' => 'dompetx', 'external_id' => $invoice->external_id],
+            ['provider' => $invoice->provider, 'external_id' => $invoice->external_id],
         );
 
         $this->audit->record('payment.invoice_paid', $invoice->user, $invoice, [
@@ -246,10 +250,12 @@ class PaymentService
         ]);
     }
 
-    private function assertTopUpAmount(string $amount): void
+    private function assertTopUpAmount(string $amount, string $paymentMethod): void
     {
-        if (! is_numeric($amount) || bccomp($amount, '10000', 2) < 0 || bccomp($amount, '10000000', 2) > 0) {
-            throw new RuntimeException('Top up amount must be between Rp10.000 and Rp10.000.000.');
+        $minimum = $paymentMethod === 'qris2' ? '5000' : '10000';
+
+        if (! is_numeric($amount) || bccomp($amount, $minimum, 2) < 0 || bccomp($amount, '10000000', 2) > 0) {
+            throw new RuntimeException('Top up amount must be between Rp'.number_format((float) $minimum, 0, ',', '.').' and Rp10.000.000.');
         }
     }
 
@@ -272,6 +278,23 @@ class PaymentService
             ?? $response['checkoutUrl']
             ?? $response['url']
             ?? null;
+    }
+
+    private function payableAmount(string $amount, string $provider): string
+    {
+        if ($provider !== 'jagopay') {
+            return $amount;
+        }
+
+        $baseAmount = (int) $amount;
+
+        if ($baseAmount >= 10000000) {
+            return (string) $baseAmount;
+        }
+
+        $increment = random_int(1, min(499, 10000000 - $baseAmount));
+
+        return (string) ($baseAmount + $increment);
     }
 
     private function generateInvoiceNo(): string

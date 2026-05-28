@@ -8,8 +8,7 @@
         <div class="flex h-16 items-center justify-between gap-4">
             <div class="flex min-w-0 items-center gap-6">
                 <a href="{{ route('dashboard') }}" class="flex shrink-0 items-center gap-3">
-                    <span class="grid h-9 w-9 place-items-center rounded-lg bg-emerald-600 text-sm font-bold text-white">NX</span>
-                    <span class="hidden text-base font-bold text-slate-950 sm:inline">Nokos</span>
+                    <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Blueline OTP') }} logo" class="h-10 w-auto max-w-[150px] object-contain">
                 </a>
 
                 <div class="hidden items-center gap-1 md:flex">

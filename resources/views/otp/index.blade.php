@@ -172,7 +172,7 @@
                         >
                             <span class="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-lg bg-slate-100 p-2 text-xs font-black text-slate-700">
                                 @if ($iconUrl)
-                                    <img src="{{ $iconUrl }}" alt="{{ $service->name }} icon" loading="lazy" class="h-full w-full object-contain">
+                                    <img src="{{ $iconUrl }}" alt="{{ $service->name }} icon" loading="lazy" class="h-full w-full object-contain" onerror="if(!this.getAttribute('data-tried-favicon')){this.setAttribute('data-tried-favicon','true');this.src='https://www.google.com/s2/favicons?sz=64&domain='+this.src.split('/').pop();}else{this.style.display='none';this.parentElement.textContent='{{ $serviceInitial($service) }}';}">
                                 @else
                                     {{ $serviceInitial($service) }}
                                 @endif
@@ -257,7 +257,7 @@
                             <div class="flex items-start gap-3">
                                 <span class="mt-0.5 grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-lg bg-slate-100 p-2 text-xs font-black text-slate-700">
                                     @if ($priceServiceIconUrl)
-                                        <img src="{{ $priceServiceIconUrl }}" alt="{{ $price->otpService->name }} icon" loading="lazy" class="h-full w-full object-contain">
+                                        <img src="{{ $priceServiceIconUrl }}" alt="{{ $price->otpService->name }} icon" loading="lazy" class="h-full w-full object-contain" onerror="if(!this.getAttribute('data-tried-favicon')){this.setAttribute('data-tried-favicon','true');this.src='https://www.google.com/s2/favicons?sz=64&domain='+this.src.split('/').pop();}else{this.style.display='none';this.parentElement.textContent='{{ $serviceInitial($price->otpService) }}';}">
                                     @else
                                         {{ $serviceInitial($price->otpService) }}
                                     @endif
@@ -268,7 +268,6 @@
                                         <span>{{ $price->country->name }}</span>
                                         <span>Code {{ $price->otpService->provider_code }}/{{ $price->country->provider_code }}</span>
                                         <span>{{ $variantLabel }}</span>
-                                        <span>Sync {{ $price->last_synced_at?->diffForHumans() ?? '-' }}</span>
                                     </span>
                                 </span>
                             </div>

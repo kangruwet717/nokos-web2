@@ -111,7 +111,7 @@ class SmsbowerCatalogSyncService
                 }
 
                 ServicePrice::query()->upsert(
-                    $rows,
+                    array_values($rows),
                     ['provider_id', 'otp_service_id', 'country_id', 'provider_price_key'],
                     [
                         'provider_price',
@@ -162,7 +162,9 @@ class SmsbowerCatalogSyncService
                         $providerPrice = $variant['provider_price'];
                         $stock = $variant['stock_count'];
 
-                        $rows[] = [
+                        $rowKey = implode(':', [$provider->id, $serviceId, $countryId, $variant['key']]);
+
+                        $rows[$rowKey] = [
                             'provider_id' => $provider->id,
                             'otp_service_id' => $serviceId,
                             'country_id' => $countryId,

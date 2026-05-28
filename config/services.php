@@ -39,6 +39,14 @@ return [
         'timeout' => (int) env('DOMPETX_TIMEOUT_SECONDS', 20),
     ],
 
+    'jagopay' => [
+        'base_url' => env('JAGOPAY_BASE_URL', 'https://jagopay.my.id'),
+        'api_key' => env('JAGOPAY_API_KEY'),
+        'timeout' => (int) env('JAGOPAY_TIMEOUT_SECONDS', 20),
+        'expiry_minutes' => (int) env('JAGOPAY_EXPIRY_MINUTES', 15),
+        'mutation_pages' => (int) env('JAGOPAY_MUTATION_PAGES', 3),
+    ],
+
     'smsbower' => [
         'base_url' => env('SMSBOWER_BASE_URL', 'https://smsbower.app/stubs/handler_api.php'),
         'fallback_base_urls' => array_values(array_filter(array_map('trim', explode(',', (string) env('SMSBOWER_FALLBACK_BASE_URLS', 'https://smsbower.page/stubs/handler_api.php'))))),

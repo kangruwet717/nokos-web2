@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ $title ?? config('app.name', 'Nokos') }}</title>
+        <title>{{ $title ?? config('app.name', 'Blueline OTP') }}</title>
+        <link rel="icon" href="{{ asset('images/logo.png') }}">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -12,8 +13,7 @@
         <header class="border-b border-slate-200 bg-white">
             <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
                 <a href="{{ url('/') }}" class="flex items-center gap-3">
-                    <span class="grid h-10 w-10 place-items-center rounded-lg bg-emerald-600 text-sm font-bold text-white">NX</span>
-                    <span class="text-lg font-bold">Nokos</span>
+                    <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Blueline OTP') }} logo" class="h-11 w-auto max-w-[170px] object-contain">
                 </a>
                 <nav class="flex items-center gap-2 text-sm font-semibold">
                     <a href="{{ route('legal.terms') }}" class="rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100">Terms</a>

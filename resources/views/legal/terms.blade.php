@@ -1,6 +1,6 @@
 @component('legal.layout', ['title' => 'Terms of Service'])
     <h2>Penggunaan Layanan</h2>
-    <p>Nokos menyediakan nomor virtual untuk kebutuhan verifikasi, testing, QA, dan kebutuhan bisnis yang sah. Dengan membuat akun, pengguna menyatakan akan memakai layanan sesuai hukum yang berlaku dan ketentuan platform pihak ketiga.</p>
+    <p>Blueline OTP menyediakan nomor virtual untuk kebutuhan verifikasi, testing, QA, dan kebutuhan bisnis yang sah. Dengan membuat akun, pengguna menyatakan akan memakai layanan sesuai hukum yang berlaku dan ketentuan platform pihak ketiga.</p>
 
     <h2>Akun dan Keamanan</h2>
     <p>Pengguna bertanggung jawab menjaga akses akun, email, dan password. Aktivitas dari akun pengguna dianggap sebagai aktivitas pemilik akun sampai ada laporan penyalahgunaan yang valid.</p>

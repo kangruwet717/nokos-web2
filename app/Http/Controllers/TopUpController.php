@@ -26,10 +26,23 @@ class TopUpController extends Controller
     public function store(Request $request, PaymentService $payments): RedirectResponse
     {
         $data = $request->validate([
-            'amount' => ['required', 'integer', 'min:10000', 'max:10000000'],
+            'payment_method' => ['nullable', 'in:qris1,qris2'],
+            'amount' => [
+                'required',
+                'integer',
+                'max:10000000',
+                function (string $attribute, mixed $value, \Closure $fail) use ($request): void {
+                    $method = $request->input('payment_method', 'qris1');
+                    $minimum = $method === 'qris2' ? 5000 : 10000;
+
+                    if ((int) $value < $minimum) {
+                        $fail('Minimal top up untuk '.($method === 'qris2' ? 'QRIS 2' : 'QRIS 1').' adalah Rp'.number_format($minimum, 0, ',', '.').'.');
+                    }
+                },
+            ],
         ]);
 
-        $invoice = $payments->createTopUpInvoice($request->user(), (string) $data['amount']);
+        $invoice = $payments->createTopUpInvoice($request->user(), (string) $data['amount'], $data['payment_method'] ?? 'qris1');
 
         return redirect()->route('topup.show', $invoice);
     }
@@ -38,7 +51,13 @@ class TopUpController extends Controller
     {
         abort_unless($invoice->user_id === $request->user()->id, 404);
 
-        return view('topup.show', compact('invoice'));
+        $recentInvoices = $request->user()
+            ->paymentInvoices()
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return view('topup.show', compact('invoice', 'recentInvoices'));
     }
 
     public function status(Request $request, PaymentInvoice $invoice): JsonResponse
@@ -62,7 +81,7 @@ class TopUpController extends Controller
             report($exception);
 
             return back()->withErrors([
-                'payment' => 'Status DompetX belum bisa dicek saat ini. Invoice tetap pending; coba lagi beberapa saat atau tunggu webhook otomatis.',
+                'payment' => 'Status pembayaran belum bisa dicek saat ini. Invoice tetap pending; coba lagi beberapa saat.',
             ]);
         }
 

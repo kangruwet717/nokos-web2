@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ config('app.name', 'Nokos') }}</title>
+        <title>{{ config('app.name', 'Blueline OTP') }}</title>
+        <link rel="icon" href="{{ asset('images/logo.png') }}">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -12,8 +13,7 @@
         <header class="border-b border-slate-200 bg-white">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
                 <a href="{{ url('/') }}" class="flex items-center gap-3">
-                    <span class="grid h-10 w-10 place-items-center rounded-lg bg-emerald-600 text-sm font-bold text-white">NX</span>
-                    <span class="text-lg font-bold">Nokos</span>
+                    <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', 'Blueline OTP') }} logo" class="h-11 w-auto max-w-[170px] object-contain">
                 </a>
 
                 <nav class="flex items-center gap-2">
@@ -33,7 +33,7 @@
                     <div class="flex flex-col justify-center">
                         <p class="text-sm font-bold uppercase text-emerald-700">OTP virtual siap transaksi</p>
                         <h1 class="mt-4 max-w-3xl text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
-                            Nokos untuk beli nomor OTP virtual dengan saldo wallet.
+                            Blueline OTP untuk beli nomor OTP virtual dengan saldo wallet.
                         </h1>
                         <p class="mt-5 max-w-2xl text-base leading-7 text-slate-600">
                             Cari service, pilih negara, buat order, lalu pantau kode OTP dari satu dashboard. Fondasi pembayaran, wallet ledger, dan admin operasional sudah dipisahkan rapi.

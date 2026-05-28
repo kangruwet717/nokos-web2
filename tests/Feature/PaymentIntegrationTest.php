@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\PaymentInvoice;
 use App\Models\User;
+use App\Services\Payments\JagopayClient;
 use App\Services\Payments\PaymentGatewayInterface;
 use App\Services\Payments\PaymentService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -100,8 +101,120 @@ class PaymentIntegrationTest extends TestCase
         $this->actingAs($user)
             ->get(route('topup.show', $invoice))
             ->assertOk()
-            ->assertSee('Bayar Sekarang')
-            ->assertSee('https://checkout.dompetx.test/checkout-456');
+            ->assertSee('Cek Pembayaran')
+            ->assertSee('Buka Checkout')
+            ->assertSee('api.qrserver.com', false);
+    }
+
+    public function test_user_can_create_jagopay_qris_topup_invoice(): void
+    {
+        $this->bindJagopayGateway(new class implements PaymentGatewayInterface
+        {
+            public function createCheckout(array $payload, string $idempotencyKey): array
+            {
+                TestCase::assertGreaterThan(50000, $payload['amount']);
+
+                return [
+                    'id' => $payload['reference'],
+                    'status' => 'pending',
+                    'type' => 'qris2',
+                    'amount' => $payload['amount'],
+                    'qr_url' => 'https://jagopay.test/qr.png',
+                    'qr_string' => '000201010212TEST',
+                    'expiresAt' => now()->addMinutes(15)->toISOString(),
+                ];
+            }
+
+            public function getCheckoutDetail(string $checkoutId): array
+            {
+                return [];
+            }
+
+            public function checkCheckoutStatus(string $checkoutId): array
+            {
+                return [];
+            }
+
+            public function cancelCheckout(string $checkoutId): array
+            {
+                return [];
+            }
+        });
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/topup', [
+            'amount' => 50000,
+            'payment_method' => 'qris2',
+        ]);
+
+        $invoice = PaymentInvoice::firstOrFail();
+
+        $response->assertRedirect(route('topup.show', $invoice));
+        $this->assertSame('jagopay', $invoice->provider);
+        $this->assertSame('qris2', $invoice->payment_method);
+        $this->assertSame('50000.00', $invoice->net_amount);
+        $this->assertGreaterThan(50000, (float) $invoice->amount);
+        $this->assertSame('https://jagopay.test/qr.png', $invoice->qrImage());
+    }
+
+    public function test_qris2_allows_five_thousand_minimum_topup(): void
+    {
+        $this->bindJagopayGateway(new class implements PaymentGatewayInterface
+        {
+            public function createCheckout(array $payload, string $idempotencyKey): array
+            {
+                TestCase::assertGreaterThanOrEqual(5000, $payload['amount']);
+
+                return [
+                    'id' => $payload['reference'],
+                    'status' => 'pending',
+                    'type' => 'qris2',
+                    'amount' => $payload['amount'],
+                    'qr_url' => 'https://jagopay.test/qr-5000.png',
+                    'expiresAt' => now()->addMinutes(15)->toISOString(),
+                ];
+            }
+
+            public function getCheckoutDetail(string $checkoutId): array
+            {
+                return [];
+            }
+
+            public function checkCheckoutStatus(string $checkoutId): array
+            {
+                return [];
+            }
+
+            public function cancelCheckout(string $checkoutId): array
+            {
+                return [];
+            }
+        });
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/topup', [
+            'amount' => 5000,
+            'payment_method' => 'qris2',
+        ]);
+
+        $invoice = PaymentInvoice::firstOrFail();
+
+        $response->assertRedirect(route('topup.show', $invoice));
+        $this->assertSame('5000.00', $invoice->net_amount);
+    }
+
+    public function test_qris1_requires_ten_thousand_minimum_topup(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post('/topup', [
+            'amount' => 5000,
+            'payment_method' => 'qris1',
+        ])->assertSessionHasErrors('amount');
+
+        $this->assertDatabaseCount('payment_invoices', 0);
     }
 
     public function test_topup_show_uses_checkout_url_from_raw_response_as_fallback(): void
@@ -124,8 +237,9 @@ class PaymentIntegrationTest extends TestCase
         $this->actingAs($user)
             ->get(route('topup.show', $invoice))
             ->assertOk()
-            ->assertSee('Bayar Sekarang')
-            ->assertSee('https://checkout.dompetx.test/raw-link');
+            ->assertSee('Cek Pembayaran')
+            ->assertSee('Buka Checkout')
+            ->assertSee('api.qrserver.com', false);
     }
 
     public function test_dompetx_paid_webhook_credits_wallet_once(): void
@@ -409,6 +523,55 @@ class PaymentIntegrationTest extends TestCase
         $this->assertDatabaseHas('audit_logs', ['action' => 'payment.invoice_expired']);
     }
 
+    public function test_jagopay_reconcile_credits_requested_net_amount(): void
+    {
+        $this->bindJagopayGateway(new class implements PaymentGatewayInterface
+        {
+            public function createCheckout(array $payload, string $idempotencyKey): array
+            {
+                return [];
+            }
+
+            public function getCheckoutDetail(string $checkoutId): array
+            {
+                return [];
+            }
+
+            public function checkCheckoutStatus(string $checkoutId): array
+            {
+                return [
+                    'id' => 'mutation-1',
+                    'amount' => 50037,
+                    'status' => 'paid',
+                    'type' => 'qris2',
+                ];
+            }
+
+            public function cancelCheckout(string $checkoutId): array
+            {
+                return [];
+            }
+        });
+
+        $user = User::factory()->create();
+        $invoice = PaymentInvoice::create([
+            'invoice_no' => 'TOPUP-JAGOPAY-PAID',
+            'user_id' => $user->id,
+            'provider' => 'jagopay',
+            'external_id' => 'TOPUP-JAGOPAY-PAID',
+            'idempotency_key' => 'idem-jagopay-paid',
+            'amount' => '50037.00',
+            'net_amount' => '50000.00',
+            'status' => 'pending',
+            'payment_method' => 'qris2',
+        ]);
+
+        app(PaymentService::class)->reconcile($invoice);
+
+        $this->assertSame('paid', $invoice->fresh()->status);
+        $this->assertSame('50000.00', $user->fresh()->balance);
+    }
+
     public function test_topup_amount_is_limited(): void
     {
         $this->expectException(RuntimeException::class);
@@ -419,6 +582,11 @@ class PaymentIntegrationTest extends TestCase
     private function bindGateway(PaymentGatewayInterface $gateway): void
     {
         $this->app->instance(PaymentGatewayInterface::class, $gateway);
+    }
+
+    private function bindJagopayGateway(PaymentGatewayInterface $gateway): void
+    {
+        $this->app->instance(JagopayClient::class, $gateway);
     }
 
     private function postSignedDompetxWebhook(array $payload)
