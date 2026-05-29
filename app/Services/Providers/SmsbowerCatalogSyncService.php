@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class SmsbowerCatalogSyncService
 {
-    private const PRICE_UPSERT_CHUNK_SIZE = 1000;
+    private const PRICE_UPSERT_CHUNK_SIZE = 250;
 
     public function __construct(
         private readonly SmsProviderInterface $client,
