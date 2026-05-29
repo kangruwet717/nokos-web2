@@ -10,13 +10,13 @@ class AccessHardeningTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_unverified_user_can_not_access_transaction_pages(): void
+    public function test_unverified_user_can_access_transaction_pages_when_email_verification_is_disabled(): void
     {
         $user = User::factory()->unverified()->create();
 
-        $this->actingAs($user)->get(route('wallet.history'))->assertRedirect(route('verification.notice'));
-        $this->actingAs($user)->get(route('topup.index'))->assertRedirect(route('verification.notice'));
-        $this->actingAs($user)->get(route('otp.index'))->assertRedirect(route('verification.notice'));
+        $this->actingAs($user)->get(route('wallet.history'))->assertOk();
+        $this->actingAs($user)->get(route('topup.index'))->assertOk();
+        $this->actingAs($user)->get(route('otp.index'))->assertOk();
         $this->actingAs($user)->get(route('profile.edit'))->assertOk();
     }
 

@@ -35,7 +35,7 @@ Route::get('/dashboard', function (Request $request) {
             ->get(),
         'pendingInvoices' => $user->paymentInvoices()->where('status', 'pending')->latest()->limit(3)->get(),
     ]);
-})->middleware(['auth', 'verified', 'active'])->name('dashboard');
+})->middleware(['auth', 'active'])->name('dashboard');
 
 Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -43,7 +43,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'verified', 'active'])->group(function () {
+Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/wallet/history', WalletHistoryController::class)->name('wallet.history');
     Route::get('/topup', [TopUpController::class, 'index'])->name('topup.index');
     Route::post('/topup', [TopUpController::class, 'store'])->middleware('throttle:topup-create')->name('topup.store');
@@ -68,7 +68,7 @@ Route::middleware(['auth', 'verified', 'active'])->group(function () {
     Route::post('/support/{ticket}/close', [SupportTicketController::class, 'close'])->middleware('throttle:10,1')->name('support.close');
 });
 
-Route::middleware(['auth', 'verified', 'active', 'admin'])
+Route::middleware(['auth', 'active', 'admin'])
     ->prefix('admin/reports')
     ->name('admin.reports.')
     ->group(function () {
