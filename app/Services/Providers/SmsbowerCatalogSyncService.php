@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class SmsbowerCatalogSyncService
 {
+    private const PRICE_UPSERT_CHUNK_SIZE = 1000;
+
     public function __construct(
         private readonly SmsProviderInterface $client,
         private readonly SmsbowerPricingService $pricing,
@@ -183,7 +185,7 @@ class SmsbowerCatalogSyncService
 
                         $synced++;
 
-                        if (count($rows) >= 5000) {
+                        if (count($rows) >= self::PRICE_UPSERT_CHUNK_SIZE) {
                             $flush();
                         }
                     }
