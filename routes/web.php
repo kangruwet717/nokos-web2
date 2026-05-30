@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminReportController;
+use App\Http\Controllers\AdminProviderSyncController;
 use App\Http\Controllers\AdminWalletAdjustmentController;
 use App\Http\Controllers\DompetxWebhookController;
 use App\Http\Controllers\OtpOrderController;
@@ -87,6 +88,10 @@ Route::middleware(['auth', 'active', 'admin'])
         Route::get('/', [AdminWalletAdjustmentController::class, 'edit'])->name('edit');
         Route::post('/', [AdminWalletAdjustmentController::class, 'update'])->name('update');
     });
+
+Route::middleware(['auth', 'active', 'admin'])
+    ->get('/admin-tools/providers/{provider}/queue-sync', AdminProviderSyncController::class.'@queue')
+    ->name('admin.providers.queue-sync');
 
 Route::post('/webhooks/dompetx', DompetxWebhookController::class)->name('webhooks.dompetx');
 Route::post('/webhooks/smsbower', SmsbowerWebhookController::class)->name('webhooks.smsbower');

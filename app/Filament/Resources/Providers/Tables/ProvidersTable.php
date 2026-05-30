@@ -2,13 +2,10 @@
 
 namespace App\Filament\Resources\Providers\Tables;
 
-use App\Jobs\SyncSmsbowerCatalogJob;
-use App\Services\Providers\ProviderSyncTracker;
 use App\Support\ProviderSyncStatus;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -48,27 +45,7 @@ class ProvidersTable
                 Action::make('sync')
                     ->label('Queue sync')
                     ->visible(fn ($record): bool => $record->code === 'smsbower')
-                    ->action(function (ProviderSyncTracker $tracker): void {
-                        try {
-                            $log = $tracker->markQueued();
-                            ProviderSyncStatus::markQueued();
-                            SyncSmsbowerCatalogJob::dispatch(syncLogId: $log->id);
-
-                            Notification::make()
-                                ->title('SMSBower sync queued')
-                                ->body('Status proses akan berubah otomatis di kolom Sync status. Jalankan php artisan queue:work jika worker belum aktif.')
-                                ->success()
-                                ->send();
-                        } catch (\Throwable $exception) {
-                            report($exception);
-
-                            Notification::make()
-                                ->title('SMSBower sync failed')
-                                ->body($exception->getMessage())
-                                ->danger()
-                                ->send();
-                        }
-                    }),
+                    ->url(fn ($record): string => route('admin.providers.queue-sync', $record)),
             ]);
     }
 }
