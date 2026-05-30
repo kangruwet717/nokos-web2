@@ -16,7 +16,7 @@ class SyncSmsbowerCatalogJob implements ShouldQueue
 
     public int $tries = 1;
 
-    public int $timeout = 300;
+    public int $timeout = 1800;
 
     public function __construct(
         public readonly ?string $serviceCode = null,
@@ -30,7 +30,7 @@ class SyncSmsbowerCatalogJob implements ShouldQueue
             ? ProviderSyncLog::query()->find($this->syncLogId)
             : null;
         $log ??= $tracker->markQueued($this->serviceCode, $this->countryCode);
-        $lock = Cache::lock($tracker->lockKey($this->serviceCode, $this->countryCode), 1800);
+        $lock = Cache::lock($tracker->lockKey($this->serviceCode, $this->countryCode), 3600);
 
         if (! $lock->get()) {
             $tracker->markSkipped($log, 'Sync scope yang sama masih berjalan.');

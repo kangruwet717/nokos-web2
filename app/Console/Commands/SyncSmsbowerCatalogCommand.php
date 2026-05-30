@@ -46,7 +46,7 @@ class SyncSmsbowerCatalogCommand extends Command
             return self::SUCCESS;
         }
 
-        $lock = Cache::lock($tracker->lockKey($serviceCode, $countryCode), 1800);
+        $lock = Cache::lock($tracker->lockKey($serviceCode, $countryCode), 3600);
 
         if (! $lock->get()) {
             $tracker->markSkipped($log, 'Sync scope yang sama masih berjalan.');
