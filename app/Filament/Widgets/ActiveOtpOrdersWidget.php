@@ -18,6 +18,8 @@ class ActiveOtpOrdersWidget extends TableWidget
 
     protected static ?int $sort = 3;
 
+    protected static bool $isLazy = false;
+
     public function table(Table $table): Table
     {
         return $table

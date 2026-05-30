@@ -17,6 +17,8 @@ class OperationalStatsWidget extends StatsOverviewWidget
 
     protected static ?int $sort = 1;
 
+    protected static bool $isLazy = false;
+
     protected function getStats(): array
     {
         $today = now()->startOfDay();

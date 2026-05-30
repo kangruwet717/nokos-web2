@@ -18,6 +18,8 @@ class PendingPaymentInvoicesWidget extends TableWidget
 
     protected static ?int $sort = 2;
 
+    protected static bool $isLazy = false;
+
     public function table(Table $table): Table
     {
         return $table
