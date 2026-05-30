@@ -107,4 +107,23 @@
             </div>
         </aside>
     </div>
+
+    @if ($order->status === 'waiting_sms')
+        <script>
+            window.setInterval(async () => {
+                try {
+                    const response = await fetch(@json(route('otp.orders.status', $order)), {
+                        headers: { Accept: 'application/json' },
+                    });
+                    const payload = await response.json();
+
+                    if (payload.status && payload.status !== 'waiting_sms') {
+                        window.location.reload();
+                    }
+                } catch (error) {
+                    //
+                }
+            }, @json(config('services.smsbower.status_poll_interval_ms', 5000)));
+        </script>
+    @endif
 </x-app-layout>

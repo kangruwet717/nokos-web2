@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         RateLimiter::for('payment-status', fn (Request $request) => [
-            Limit::perMinute(12)->by($request->user()?->id ?: $request->ip()),
+            Limit::perMinute(30)->by($request->user()?->id ?: $request->ip()),
         ]);
 
         RateLimiter::for('otp-order', fn (Request $request) => [
@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         RateLimiter::for('otp-status', fn (Request $request) => [
-            Limit::perMinute(20)->by($request->user()?->id ?: $request->ip()),
+            Limit::perMinute(30)->by($request->user()?->id ?: $request->ip()),
         ]);
 
         RateLimiter::for('otp-action', fn (Request $request) => [

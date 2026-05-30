@@ -52,9 +52,9 @@ return [
         'fallback_base_urls' => array_values(array_filter(array_map('trim', explode(',', (string) env('SMSBOWER_FALLBACK_BASE_URLS', 'https://smsbower.page/stubs/handler_api.php'))))),
         'api_key' => env('SMSBOWER_API_KEY'),
         'webhook_secret' => env('SMSBOWER_WEBHOOK_SECRET'),
-        'timeout' => (int) env('SMSBOWER_TIMEOUT_SECONDS', 60),
-        'connect_timeout' => (int) env('SMSBOWER_CONNECT_TIMEOUT_SECONDS', 5),
-        'retry_attempts' => (int) env('SMSBOWER_RETRY_ATTEMPTS', 2),
+        'timeout' => (int) env('SMSBOWER_TIMEOUT_SECONDS', 20),
+        'connect_timeout' => (int) env('SMSBOWER_CONNECT_TIMEOUT_SECONDS', 3),
+        'retry_attempts' => (int) env('SMSBOWER_RETRY_ATTEMPTS', 1),
         'refresh_price_before_order' => (bool) env('SMSBOWER_REFRESH_PRICE_BEFORE_ORDER', true),
         'prices_action' => env('SMSBOWER_PRICES_ACTION', 'getPricesV3'),
         'default_margin_type' => env('SMSBOWER_DEFAULT_MARGIN_TYPE', 'percent'),
@@ -63,7 +63,8 @@ return [
         'minimum_selling_price_idr' => env('SMSBOWER_MINIMUM_SELLING_PRICE_IDR', 1000),
         'minimum_profit_idr' => env('SMSBOWER_MIN_PROFIT_IDR', env('DEFAULT_MIN_PROFIT', 0)),
         'rounding_idr' => env('SMSBOWER_ROUNDING_IDR', 100),
-        'scope_sync_cooldown_seconds' => (int) env('SMSBOWER_SCOPE_SYNC_COOLDOWN_SECONDS', 120),
+        'scope_sync_cooldown_seconds' => (int) env('SMSBOWER_SCOPE_SYNC_COOLDOWN_SECONDS', 30),
+        'status_poll_interval_ms' => (int) env('SMSBOWER_STATUS_POLL_INTERVAL_MS', 5000),
     ],
 
 ];

@@ -190,7 +190,7 @@
                 } catch (error) {
                     //
                 }
-            }, 10000);
+            }, 5000);
         </script>
     @endif
 </x-app-layout>
