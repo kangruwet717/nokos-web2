@@ -4,14 +4,10 @@ namespace App\Filament\Resources\Users\Tables;
 
 use App\Models\User;
 use App\Services\Audit\AuditLogService;
-use App\Services\Wallet\WalletService;
 use Filament\Actions\Action;
-use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -71,46 +67,27 @@ class UsersTable
                     ]),
             ])
             ->recordActions([
-                ActionGroup::make([
-                    ViewAction::make(),
-                    EditAction::make(),
-                    Action::make('suspend')
-                        ->requiresConfirmation()
-                        ->visible(fn (User $record): bool => $record->status === 'active')
-                        ->action(function (User $record): void {
-                            $record->forceFill(['status' => 'suspended'])->save();
-                            app(AuditLogService::class)->record('user.suspended', Auth::user(), $record);
-                            Notification::make()->title('User suspended')->success()->send();
-                        }),
-                    Action::make('unsuspend')
-                        ->requiresConfirmation()
-                        ->visible(fn (User $record): bool => $record->status === 'suspended')
-                        ->action(function (User $record): void {
-                            $record->forceFill(['status' => 'active'])->save();
-                            app(AuditLogService::class)->record('user.unsuspended', Auth::user(), $record);
-                            Notification::make()->title('User reactivated')->success()->send();
-                        }),
-                    Action::make('adjust_balance')
-                        ->label('Adjust balance')
-                        ->modalHeading(fn (User $record): string => 'Adjust balance for '.$record->email)
-                        ->form([
-                            TextInput::make('amount')
-                                ->numeric()
-                                ->required()
-                                ->helperText('Use a negative value to debit the wallet.'),
-                            Textarea::make('reason')
-                                ->required()
-                                ->maxLength(500),
-                        ])
-                        ->action(function (User $record, array $data): void {
-                            app(WalletService::class)->adjustment($record, (string) $data['amount'], $data['reason'], Auth::user());
-                            app(AuditLogService::class)->record('wallet.adjusted', Auth::user(), $record, [
-                                'amount' => $data['amount'],
-                                'reason' => $data['reason'],
-                            ]);
-                            Notification::make()->title('Wallet adjusted')->success()->send();
-                        }),
-                ]),
+                ViewAction::make(),
+                EditAction::make(),
+                Action::make('suspend')
+                    ->requiresConfirmation()
+                    ->visible(fn (User $record): bool => $record->status === 'active')
+                    ->action(function (User $record): void {
+                        $record->forceFill(['status' => 'suspended'])->save();
+                        app(AuditLogService::class)->record('user.suspended', Auth::user(), $record);
+                        Notification::make()->title('User suspended')->success()->send();
+                    }),
+                Action::make('unsuspend')
+                    ->requiresConfirmation()
+                    ->visible(fn (User $record): bool => $record->status === 'suspended')
+                    ->action(function (User $record): void {
+                        $record->forceFill(['status' => 'active'])->save();
+                        app(AuditLogService::class)->record('user.unsuspended', Auth::user(), $record);
+                        Notification::make()->title('User reactivated')->success()->send();
+                    }),
+                Action::make('adjust_balance')
+                    ->label('Adjust balance')
+                    ->url(fn (User $record): string => route('admin.wallet-adjustments.edit', $record)),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

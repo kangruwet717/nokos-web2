@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminReportController;
+use App\Http\Controllers\AdminWalletAdjustmentController;
 use App\Http\Controllers\DompetxWebhookController;
 use App\Http\Controllers\OtpOrderController;
 use App\Http\Controllers\ProfileController;
@@ -77,6 +78,14 @@ Route::middleware(['auth', 'active', 'admin'])
         Route::get('/wallet-transactions.csv', [AdminReportController::class, 'walletTransactions'])->name('wallet-transactions');
         Route::get('/otp-orders.csv', [AdminReportController::class, 'otpOrders'])->name('otp-orders');
         Route::get('/profit.csv', [AdminReportController::class, 'profit'])->name('profit');
+    });
+
+Route::middleware(['auth', 'active', 'admin'])
+    ->prefix('admin-tools/users/{user}/wallet-adjustment')
+    ->name('admin.wallet-adjustments.')
+    ->group(function () {
+        Route::get('/', [AdminWalletAdjustmentController::class, 'edit'])->name('edit');
+        Route::post('/', [AdminWalletAdjustmentController::class, 'update'])->name('update');
     });
 
 Route::post('/webhooks/dompetx', DompetxWebhookController::class)->name('webhooks.dompetx');
