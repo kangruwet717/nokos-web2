@@ -10,15 +10,25 @@
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+        <script>
+            (() => {
+                const theme = localStorage.getItem('blueline-theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+                if (theme === 'dark' || (! theme && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased text-slate-900">
-        <div class="min-h-screen bg-stone-50">
+    <body class="font-sans antialiased text-slate-900 dark:text-slate-100">
+        <div class="min-h-screen bg-stone-50 dark:bg-slate-950">
             @include('layouts.navigation')
 
             @isset($header)
-                <header class="border-b border-slate-200 bg-white">
+                <header class="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
                     <div class="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>

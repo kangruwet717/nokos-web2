@@ -8,6 +8,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use RuntimeException;
 
 class TopUpController extends Controller
@@ -71,6 +73,34 @@ class TopUpController extends Controller
         ]);
     }
 
+    public function downloadQris(Request $request, PaymentInvoice $invoice)
+    {
+        abort_unless($invoice->user_id === $request->user()->id, 404);
+
+        $qrUrl = $this->qrDownloadUrl($invoice);
+        abort_unless($qrUrl, 404);
+
+        $response = Http::timeout(20)
+            ->accept('image/png,image/jpeg,image/webp,image/svg+xml,*/*')
+            ->withUserAgent(config('app.name', 'Blueline OTP').'/1.0')
+            ->get($qrUrl);
+
+        abort_if($response->failed(), 502, 'QRIS belum bisa didownload saat ini.');
+
+        $contentType = $response->header('Content-Type', 'image/png');
+        $extension = str_contains($contentType, 'jpeg') || str_contains($contentType, 'jpg')
+            ? 'jpg'
+            : (str_contains($contentType, 'svg') ? 'svg' : 'png');
+
+        $filename = 'qris-'.Str::slug($invoice->invoice_no).'.'.$extension;
+
+        return response($response->body(), 200, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+            'Cache-Control' => 'private, max-age=60',
+        ]);
+    }
+
     public function reconcile(Request $request, PaymentInvoice $invoice, PaymentService $payments): RedirectResponse
     {
         abort_unless($invoice->user_id === $request->user()->id, 404);
@@ -86,5 +116,20 @@ class TopUpController extends Controller
         }
 
         return back()->with('status', 'Status invoice diperbarui.');
+    }
+
+    private function qrDownloadUrl(PaymentInvoice $invoice): ?string
+    {
+        if ($invoice->qrImage()) {
+            return $invoice->qrImage();
+        }
+
+        $checkoutUrl = $invoice->checkoutUrl();
+
+        if (! $checkoutUrl) {
+            return null;
+        }
+
+        return 'https://api.qrserver.com/v1/create-qr-code/?size=720x720&data='.rawurlencode($checkoutUrl);
     }
 }

@@ -112,6 +112,12 @@
                                     </button>
                                 </form>
 
+                                @if ($displayQrImage)
+                                    <a href="{{ route('topup.qris-download', $invoice) }}" class="inline-flex justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 hover:bg-slate-50">
+                                        Download QRIS
+                                    </a>
+                                @endif
+
                                 @if ($checkoutUrl && $isPending)
                                     <a href="{{ $checkoutUrl }}" target="_blank" rel="noopener" class="inline-flex justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 hover:bg-slate-50">
                                         Buka Checkout

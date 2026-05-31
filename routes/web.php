@@ -50,6 +50,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/topup', [TopUpController::class, 'index'])->name('topup.index');
     Route::post('/topup', [TopUpController::class, 'store'])->middleware('throttle:topup-create')->name('topup.store');
     Route::get('/topup/{invoice}', [TopUpController::class, 'show'])->name('topup.show');
+    Route::get('/topup/{invoice}/qris', [TopUpController::class, 'downloadQris'])->middleware('throttle:payment-status')->name('topup.qris-download');
     Route::get('/topup/{invoice}/status', [TopUpController::class, 'status'])->middleware('throttle:payment-status')->name('topup.status');
     Route::post('/topup/{invoice}/reconcile', [TopUpController::class, 'reconcile'])->middleware('throttle:payment-status')->name('topup.reconcile');
     Route::get('/otp', [ProviderCatalogController::class, 'index'])->name('otp.index');

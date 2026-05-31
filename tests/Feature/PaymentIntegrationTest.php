@@ -9,6 +9,7 @@ use App\Services\Payments\PaymentGatewayInterface;
 use App\Services\Payments\PaymentService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 use RuntimeException;
 use Tests\TestCase;
 
@@ -104,6 +105,62 @@ class PaymentIntegrationTest extends TestCase
             ->assertSee('Cek Pembayaran')
             ->assertSee('Buka Checkout')
             ->assertSee('api.qrserver.com', false);
+    }
+
+    public function test_user_can_download_qris_image(): void
+    {
+        Http::fake([
+            'https://jagopay.test/qr.png' => Http::response('png-bytes', 200, [
+                'Content-Type' => 'image/png',
+            ]),
+        ]);
+
+        $user = User::factory()->create();
+        $invoice = PaymentInvoice::create([
+            'invoice_no' => 'TOPUP-QRIS-DOWNLOAD',
+            'user_id' => $user->id,
+            'provider' => 'jagopay',
+            'external_id' => 'TOPUP-QRIS-DOWNLOAD',
+            'idempotency_key' => 'idem-qris-download',
+            'amount' => '50000.00',
+            'net_amount' => '50000.00',
+            'status' => 'pending',
+            'payment_method' => 'qris2',
+            'raw_create_response' => [
+                'qr_url' => 'https://jagopay.test/qr.png',
+            ],
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('topup.qris-download', $invoice))
+            ->assertOk()
+            ->assertHeader('Content-Type', 'image/png')
+            ->assertHeader('Content-Disposition', 'attachment; filename="qris-topup-qris-download.png"')
+            ->assertSee('png-bytes', false);
+    }
+
+    public function test_user_cannot_download_other_users_qris(): void
+    {
+        $owner = User::factory()->create();
+        $otherUser = User::factory()->create();
+        $invoice = PaymentInvoice::create([
+            'invoice_no' => 'TOPUP-OTHER-QRIS',
+            'user_id' => $owner->id,
+            'provider' => 'jagopay',
+            'external_id' => 'TOPUP-OTHER-QRIS',
+            'idempotency_key' => 'idem-other-qris',
+            'amount' => '50000.00',
+            'net_amount' => '50000.00',
+            'status' => 'pending',
+            'payment_method' => 'qris2',
+            'raw_create_response' => [
+                'qr_url' => 'https://jagopay.test/qr.png',
+            ],
+        ]);
+
+        $this->actingAs($otherUser)
+            ->get(route('topup.qris-download', $invoice))
+            ->assertNotFound();
     }
 
     public function test_user_can_create_jagopay_qris_topup_invoice(): void
