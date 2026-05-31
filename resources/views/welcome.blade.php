@@ -44,19 +44,20 @@
                 <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 42px 42px;"></div>
                 <div class="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:min-h-[680px] lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
                     <div>
-                        <div class="inline-flex rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-200">
-                            Layanan SMS OTP terpercaya
-                        </div>
-                        <h1 class="mt-5 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
+                        <p class="text-sm font-black uppercase text-emerald-300">Blueline OTP</p>
+                        <h1 class="mt-4 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
                             Layanan Nomor OTP Virtual untuk Verifikasi Online
                         </h1>
                         <p class="mt-5 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
                             Dapatkan nomor virtual untuk menerima kode OTP dari berbagai platform populer. Pilih layanan, negara, cek harga, dan pantau status OTP langsung dari dashboard Blueline.
                         </p>
 
-                        <div class="mt-5 flex flex-wrap gap-2 text-xs font-bold text-emerald-100">
+                        <div class="mt-6 flex flex-wrap gap-2 text-sm font-bold text-slate-200">
                             @foreach (['WhatsApp', 'Telegram', 'Google', 'Instagram', 'TikTok', '100+ layanan lainnya'] as $service)
-                                <span class="rounded-full border border-white/15 bg-white/10 px-3 py-1">{{ $service }}</span>
+                                <span>{{ $service }}</span>
+                                @unless ($loop->last)
+                                    <span class="text-emerald-400">•</span>
+                                @endunless
                             @endforeach
                         </div>
 
