@@ -15,7 +15,11 @@
     };
     $checkoutUrl = $invoice->checkoutUrl();
     $qrImage = $invoice->qrImage();
-    $displayQrImage = $qrImage ?: ($checkoutUrl ? 'https://api.qrserver.com/v1/create-qr-code/?size=360x360&data='.rawurlencode($checkoutUrl) : null);
+    $paymentCode = $invoice->paymentCode();
+    $usesCheckoutFlow = $invoice->payment_method === 'qris1';
+    $displayQrImage = $qrImage
+        ?: ($paymentCode ? 'https://api.qrserver.com/v1/create-qr-code/?size=360x360&data='.rawurlencode($paymentCode) : null)
+        ?: null;
     $methodLabel = match ($invoice->payment_method) {
         'qris1' => 'QRIS 1',
         'qris2' => 'QRIS 2',
@@ -71,8 +75,13 @@
 
                     <div class="mt-6 grid gap-6 lg:grid-cols-[220px_1fr] lg:items-center">
                         <div class="rounded-lg bg-white p-3 shadow-sm ring-1 ring-slate-200">
-                            @if ($displayQrImage)
+                            @if ($displayQrImage && ! $usesCheckoutFlow)
                                 <img src="{{ $displayQrImage }}" alt="QRIS pembayaran" class="aspect-square w-full rounded-lg object-contain">
+                            @elseif ($usesCheckoutFlow && $checkoutUrl)
+                                <div class="flex aspect-square flex-col items-center justify-center rounded-lg bg-slate-50 p-5 text-center text-sm font-bold leading-6 text-slate-600">
+                                    <div class="text-3xl">QRIS</div>
+                                    <p class="mt-3">Klik Buka Checkout untuk menampilkan QRIS pembayaran.</p>
+                                </div>
                             @else
                                 <div class="flex aspect-square items-center justify-center rounded-lg bg-slate-50 p-5 text-center text-sm font-bold leading-6 text-slate-500">
                                     QR pembayaran belum tersedia.
@@ -99,31 +108,36 @@
 
                             <ol class="mt-4 space-y-2 text-sm leading-6 text-slate-600">
                                 <li><span class="font-bold text-slate-950">1.</span> Buka aplikasi e-wallet atau m-banking.</li>
-                                <li><span class="font-bold text-slate-950">2.</span> Scan QRIS di samping.</li>
+                                @if ($usesCheckoutFlow && $checkoutUrl)
+                                    <li><span class="font-bold text-slate-950">2.</span> Klik Buka Checkout, lalu pilih metode QRIS di halaman pembayaran.</li>
+                                @else
+                                    <li><span class="font-bold text-slate-950">2.</span> Scan QRIS di samping.</li>
+                                @endif
                                 <li><span class="font-bold text-slate-950">3.</span> Masukkan nominal {{ $money($invoice->amount) }} persis.</li>
                                 <li><span class="font-bold text-slate-950">4.</span> Setelah bayar, klik cek pembayaran jika saldo belum masuk.</li>
                             </ol>
 
-                            <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+                            <div class="mt-5 grid gap-3 {{ $usesCheckoutFlow ? 'sm:grid-cols-2' : 'sm:grid-cols-3' }}">
                                 <form method="POST" action="{{ route('topup.reconcile', $invoice) }}" class="sm:flex-1">
                                     @csrf
-                                    <button class="w-full rounded-lg bg-sky-600 px-5 py-3 text-sm font-bold text-white hover:bg-sky-500">
+                                    <button class="flex min-h-16 w-full items-center justify-center rounded-lg bg-sky-600 px-5 py-3 text-center text-sm font-bold text-white hover:bg-sky-500">
                                         Cek Pembayaran
                                     </button>
                                 </form>
 
-                                @if ($displayQrImage)
-                                    <a href="{{ route('topup.qris-download', $invoice) }}" class="inline-flex justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 hover:bg-slate-50">
+                                @if ($displayQrImage && ! $usesCheckoutFlow)
+                                    <a href="{{ route('topup.qris-download', $invoice) }}" class="flex min-h-16 items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-center text-sm font-bold text-slate-800 hover:bg-slate-50">
                                         Download QRIS
                                     </a>
                                 @endif
 
                                 @if ($checkoutUrl && $isPending)
-                                    <a href="{{ $checkoutUrl }}" target="_blank" rel="noopener" class="inline-flex justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 hover:bg-slate-50">
+                                    <a href="{{ $checkoutUrl }}" target="_blank" rel="noopener" class="flex min-h-16 items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-center text-sm font-bold text-slate-800 hover:bg-slate-50">
                                         Buka Checkout
                                     </a>
                                 @endif
                             </div>
+
                         </div>
                     </div>
                 </div>
