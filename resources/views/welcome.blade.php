@@ -29,11 +29,10 @@
                 <div class="flex shrink-0 items-center gap-2">
                     @auth
                         <a href="{{ route('dashboard') }}" class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-bold text-slate-800 hover:bg-slate-50">Dashboard</a>
-                        <a href="{{ route('otp.index') }}" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-500">Mulai Sekarang</a>
+                        <a href="{{ route('otp.index') }}" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-500">Beli OTP</a>
                     @else
                         <a href="{{ route('login') }}" class="rounded-md px-3 py-2 text-sm font-bold text-slate-700 hover:bg-slate-100">Login</a>
-                        <a href="{{ route('register') }}" class="hidden rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-bold text-slate-800 hover:bg-slate-50 sm:inline-flex">Daftar</a>
-                        <a href="{{ route('register') }}" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-500">Mulai Sekarang</a>
+                        <a href="{{ route('register') }}" class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-bold text-white hover:bg-emerald-500">Daftar</a>
                     @endauth
                 </div>
             </div>
@@ -75,7 +74,7 @@
                         </div>
 
                         <div class="mt-8 flex flex-wrap gap-3">
-                            <a href="{{ auth()->check() ? route('otp.index') : route('register') }}" class="rounded-md bg-emerald-500 px-5 py-3 text-sm font-black text-white shadow-sm shadow-emerald-950/40 hover:bg-emerald-400">Mulai Sekarang</a>
+                            <a href="{{ auth()->check() ? route('otp.index') : route('register') }}" class="rounded-md bg-emerald-500 px-5 py-3 text-sm font-black text-white shadow-sm shadow-emerald-950/40 hover:bg-emerald-400">{{ auth()->check() ? 'Beli OTP' : 'Daftar' }}</a>
                             <a href="#harga" class="rounded-md border border-white/20 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/15">Lihat Harga</a>
                         </div>
 
