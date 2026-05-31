@@ -41,13 +41,13 @@
 
         <main>
             <section class="relative overflow-hidden border-b border-slate-200 bg-slate-950">
-                <div class="absolute inset-0 opacity-25" style="background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 42px 42px;"></div>
-                <div class="relative mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+                <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 42px 42px;"></div>
+                <div class="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:min-h-[680px] lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
                     <div>
                         <div class="inline-flex rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-200">
                             Layanan SMS OTP terpercaya
                         </div>
-                        <h1 class="mt-5 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl lg:text-6xl">
+                        <h1 class="mt-5 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
                             Layanan Nomor OTP Virtual untuk Verifikasi Online
                         </h1>
                         <p class="mt-5 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
@@ -65,7 +65,7 @@
                             <a href="#harga" class="rounded-md border border-white/20 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/15">Lihat Harga</a>
                         </div>
 
-                        <div class="mt-10 grid max-w-xl grid-cols-3 gap-3">
+                        <div class="mt-10 grid max-w-xl grid-cols-3 gap-3 rounded-lg border border-white/10 bg-white/5 p-4">
                             <div class="border-l border-emerald-300/40 pl-4">
                                 <div class="text-2xl font-black text-white">100+</div>
                                 <div class="mt-1 text-xs font-semibold text-slate-400">Layanan populer</div>
@@ -102,7 +102,7 @@
 
                             <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
                                 @foreach ([['100+ Layanan', 'Populer'], ['70+ Negara', 'Tersedia'], ['Status order', 'Real-time'], ['Riwayat transaksi', 'Tercatat']] as $stat)
-                                    <div class="rounded-md bg-white/10 p-3 text-white ring-1 ring-white/10">
+                                    <div class="min-h-20 rounded-md bg-white/10 p-3 text-white ring-1 ring-white/10">
                                         <div class="text-xs font-semibold text-slate-300">{{ $stat[0] }}</div>
                                         <div class="mt-1 text-lg font-black">{{ $stat[1] }}</div>
                                     </div>
@@ -121,14 +121,14 @@
                 </div>
             </section>
 
-            <section id="fitur" class="border-b border-slate-200 bg-white py-16 sm:py-20">
+            <section id="fitur" class="scroll-mt-24 border-b border-slate-200 bg-white py-20 sm:py-24">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="max-w-2xl">
                         <p class="text-sm font-black uppercase text-emerald-700">Kenapa Pilih Blueline OTP?</p>
                         <h2 class="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">Cepat, transparan, dan mudah digunakan untuk kebutuhan verifikasi yang sah.</h2>
                     </div>
 
-                    <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                         @foreach ([
                             ['Proses Cepat', 'Pesan nomor virtual dan pantau OTP langsung dari dashboard.'],
                             ['Harga Transparan', 'Lihat harga, stok, negara, dan service sebelum membuat order.'],
@@ -137,7 +137,7 @@
                             ['Banyak Negara', 'Pilih nomor dari berbagai negara sesuai kebutuhan testing.'],
                             ['API Tersedia', 'Integrasikan Blueline OTP ke sistem Anda melalui API.'],
                         ] as $feature)
-                            <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                            <article class="min-h-48 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
                                 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-50 text-sm font-black text-emerald-700 ring-1 ring-emerald-100">{{ $loop->iteration }}</div>
                                 <h3 class="mt-5 text-lg font-black text-slate-950">{{ $feature[0] }}</h3>
                                 <p class="mt-3 text-sm leading-6 text-slate-600">{{ $feature[1] }}</p>
@@ -147,7 +147,7 @@
                 </div>
             </section>
 
-            <section id="cara-kerja" class="border-b border-slate-200 bg-slate-50 py-16 sm:py-20">
+            <section id="cara-kerja" class="scroll-mt-24 border-b border-slate-200 bg-slate-50 py-20 sm:py-24">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
                         <div>
@@ -156,14 +156,14 @@
                             <p class="mt-4 text-sm leading-7 text-slate-600">Alurnya dibuat jelas agar pengguna tidak bingung sejak top up sampai order selesai.</p>
                         </div>
 
-                        <div class="grid gap-4 sm:grid-cols-2">
+                        <div class="grid gap-5 sm:grid-cols-2">
                             @foreach ([
                                 ['Isi saldo', 'Buat top up, bayar sesuai invoice, lalu pantau status pembayaran.'],
                                 ['Pilih layanan', 'Pilih platform dan negara yang memiliki stok aktif.'],
                                 ['Buat order', 'Harga terlihat sebelum order, lalu saldo ditahan saat order berjalan.'],
                                 ['Pantau OTP', 'Nomor, status, kode OTP, dan pembatalan tersedia di halaman order.'],
                             ] as $step)
-                                <div class="rounded-lg border border-slate-200 bg-white p-6">
+                                <div class="min-h-40 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
                                     <div class="text-4xl font-black text-emerald-600">{{ $loop->iteration }}</div>
                                     <h3 class="mt-4 text-lg font-black text-slate-950">{{ $step[0] }}</h3>
                                     <p class="mt-2 text-sm leading-6 text-slate-600">{{ $step[1] }}</p>
@@ -174,7 +174,7 @@
                 </div>
             </section>
 
-            <section id="layanan" class="border-b border-slate-200 bg-white py-16 sm:py-20">
+            <section id="layanan" class="scroll-mt-24 border-b border-slate-200 bg-white py-20 sm:py-24">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                         <div>
@@ -185,9 +185,9 @@
                         <a href="{{ auth()->check() ? route('otp.index') : route('register') }}" class="w-fit rounded-md bg-emerald-600 px-4 py-2 text-sm font-black text-white hover:bg-emerald-500">Lihat Semua Layanan</a>
                     </div>
 
-                    <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         @foreach (['WhatsApp', 'Telegram', 'Google', 'Instagram', 'Facebook', 'TikTok', 'Discord', 'Shopee', 'Tokopedia', 'Gojek', 'Twitter/X', 'LinkedIn'] as $service)
-                            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                            <div class="min-h-24 rounded-lg border border-slate-200 bg-slate-50 p-4">
                                 <div class="flex items-center justify-between gap-3">
                                     <div class="font-black text-slate-950">{{ $service }}</div>
                                     <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700">OTP</span>
@@ -199,7 +199,7 @@
                 </div>
             </section>
 
-            <section id="harga" class="border-b border-slate-200 bg-slate-50 py-16 sm:py-20">
+            <section id="harga" class="scroll-mt-24 border-b border-slate-200 bg-slate-50 py-20 sm:py-24">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
                         <div>
@@ -208,8 +208,8 @@
                             <p class="mt-4 text-sm leading-7 text-slate-600">Harga mengikuti layanan, negara, dan stok nomor yang tersedia di katalog Blueline.</p>
                         </div>
 
-                        <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
-                            <div class="grid grid-cols-[1fr_1fr_auto_auto] gap-3 border-b border-slate-200 bg-white px-4 py-3 text-xs font-black uppercase text-slate-500">
+                        <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+                            <div class="grid grid-cols-[1fr_1fr_auto_auto] gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-black uppercase text-slate-500">
                                 <div>Service</div>
                                 <div>Negara</div>
                                 <div>Mulai dari</div>
@@ -231,7 +231,7 @@
                 </div>
             </section>
 
-            <section id="negara" class="border-b border-slate-200 bg-white py-16 sm:py-20">
+            <section id="negara" class="scroll-mt-24 border-b border-slate-200 bg-white py-20 sm:py-24">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                         <div>
@@ -242,7 +242,7 @@
                         <a href="{{ auth()->check() ? route('otp.index') : route('register') }}" class="w-fit rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-black text-slate-800 hover:bg-slate-50">Lihat Semua Negara</a>
                     </div>
 
-                    <div class="mt-8 flex flex-wrap gap-3">
+                    <div class="mt-10 flex flex-wrap gap-3">
                         @foreach (['Indonesia', 'Malaysia', 'Philippines', 'Singapore', 'Thailand', 'Vietnam', 'USA', 'India', 'Brazil', 'Turkey', 'Japan', 'Australia'] as $country)
                             <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-bold text-slate-700">{{ $country }}</span>
                         @endforeach
@@ -250,7 +250,7 @@
                 </div>
             </section>
 
-            <section class="border-b border-slate-200 bg-slate-950 py-16 text-white sm:py-20">
+            <section class="border-b border-slate-200 bg-slate-950 py-20 text-white sm:py-24">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div>
                         <p class="text-sm font-black uppercase text-emerald-300">Testimoni pengguna</p>
@@ -258,16 +258,16 @@
                         <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-300">Pengguna memilih Blueline karena proses order sederhana, status mudah dibaca, dan riwayat transaksi tersimpan rapi.</p>
                     </div>
 
-                    <div class="mt-10 grid gap-4 md:grid-cols-3">
+                    <div class="mt-10 grid gap-5 md:grid-cols-3">
                         @foreach ([
                             ['Raka Pratama', 'Owner toko digital', 'Blueline membantu proses verifikasi jadi lebih tertata. Pilih layanan, cek negara, lalu status OTP bisa dipantau dari satu halaman.'],
                             ['Maya Salsabila', 'Admin operasional', 'Yang paling saya suka, harga terlihat sebelum order dan riwayat transaksi jelas. Jadi lebih mudah mengecek penggunaan saldo setiap hari.'],
                             ['Dimas Arya', 'Developer bot', 'API dan dashboard-nya cukup mudah dipahami. Cocok untuk kebutuhan testing internal tanpa harus bolak-balik cek manual.'],
                         ] as $testimonial)
-                            <div class="rounded-lg border border-white/10 bg-white/10 p-5 shadow-sm">
-                                <div class="text-lg tracking-normal text-amber-300" aria-label="Rating 5 dari 5">★★★★★</div>
+                            <div class="flex min-h-64 flex-col rounded-lg border border-white/10 bg-white/10 p-5 shadow-sm">
+                                <div class="text-lg tracking-normal text-amber-300" aria-label="Rating 5 dari 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                                 <p class="mt-4 text-sm leading-7 text-slate-100">"{{ $testimonial[2] }}"</p>
-                                <div class="mt-5 border-t border-white/10 pt-4">
+                                <div class="mt-auto border-t border-white/10 pt-4">
                                     <div class="font-black">{{ $testimonial[0] }}</div>
                                     <div class="mt-1 text-xs font-semibold text-slate-400">{{ $testimonial[1] }}</div>
                                 </div>
@@ -277,7 +277,7 @@
                 </div>
             </section>
 
-            <section id="api" class="border-b border-slate-200 bg-white py-16 sm:py-20">
+            <section id="api" class="scroll-mt-24 border-b border-slate-200 bg-white py-20 sm:py-24">
                 <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-8">
                     <div>
                         <p class="text-sm font-black uppercase text-emerald-700">API Integration</p>
@@ -291,7 +291,7 @@
                         <a href="{{ auth()->check() ? route('dashboard') : route('register') }}" class="mt-6 inline-flex rounded-md bg-emerald-600 px-5 py-3 text-sm font-black text-white hover:bg-emerald-500">Lihat Dokumentasi API</a>
                     </div>
 
-                    <div class="rounded-lg bg-slate-950 p-5 font-mono text-sm text-slate-100">
+                    <div class="overflow-x-auto rounded-lg bg-slate-950 p-5 font-mono text-sm text-slate-100 shadow-sm">
                         <div class="text-emerald-300">GET /api/order?service=whatsapp&country=indonesia</div>
                         <div class="mt-5 text-emerald-300">GET /api/status?id=ORDER_ID</div>
                         <div class="mt-5 text-slate-400">{</div>
@@ -304,7 +304,7 @@
                 </div>
             </section>
 
-            <section id="faq" class="bg-slate-50 py-16 sm:py-20">
+            <section id="faq" class="scroll-mt-24 bg-slate-50 py-20 sm:py-24">
                 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                     <div class="text-center">
                         <p class="text-sm font-black uppercase text-emerald-700">FAQ</p>
