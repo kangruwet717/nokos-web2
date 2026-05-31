@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ config('app.name', 'Blueline OTP') }} - Layanan Nomor OTP Virtual untuk Verifikasi Online</title>
-        <meta name="description" content="Blueline OTP menyediakan nomor OTP virtual untuk kebutuhan verifikasi, testing, dan integrasi yang sah dengan harga transparan, wallet ledger, banyak layanan, banyak negara, dan API.">
+        <meta name="description" content="Blueline OTP menyediakan nomor OTP virtual untuk kebutuhan verifikasi dan testing yang sah dengan harga transparan, riwayat transaksi jelas, banyak layanan, dan banyak negara.">
         <link rel="icon" href="{{ asset('images/logo.png') }}">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet" />
@@ -56,16 +56,16 @@
                             @foreach (['WhatsApp', 'Telegram', 'Google', 'Instagram', 'TikTok', '100+ layanan lainnya'] as $service)
                                 <span>{{ $service }}</span>
                                 @unless ($loop->last)
-                                    <span class="text-emerald-400">•</span>
+                                    <span class="text-emerald-400">&bull;</span>
                                 @endunless
                             @endforeach
                         </div>
 
                         <div class="mt-6 grid max-w-2xl gap-3 sm:grid-cols-3">
                             @foreach ([
-                                ['Order cepat', 'Pilih layanan, negara, lalu nomor tampil di dashboard.'],
-                                ['Harga terlihat', 'Cek harga dan stok sebelum membuat order.'],
-                                ['Support tersedia', 'Buat tiket jika ada kendala pembayaran atau order.'],
+                                ['Order cepat', 'Pilih layanan, negara, lalu pantau nomor dari dashboard.'],
+                                ['Harga terlihat', 'Harga final tampil sebelum order dibuat.'],
+                                ['Support tersedia', 'Buat tiket jika pembayaran atau order perlu dicek.'],
                             ] as $trust)
                                 <div class="rounded-lg border border-white/10 bg-white/5 p-4">
                                     <div class="text-sm font-black text-white">{{ $trust[0] }}</div>
@@ -89,8 +89,8 @@
                                 <div class="mt-1 text-xs font-semibold text-slate-400">Negara tersedia</div>
                             </div>
                             <div class="border-l border-emerald-300/40 pl-4">
-                                <div class="text-2xl font-black text-white">API</div>
-                                <div class="mt-1 text-xs font-semibold text-slate-400">Integrasi siap</div>
+                                <div class="text-2xl font-black text-white">24/7</div>
+                                <div class="mt-1 text-xs font-semibold text-slate-400">Dashboard aktif</div>
                             </div>
                         </div>
                     </div>
@@ -146,10 +146,10 @@
                         @foreach ([
                             ['Proses Cepat', 'Pesan nomor virtual dan pantau OTP langsung dari dashboard.'],
                             ['Harga Transparan', 'Lihat harga, stok, negara, dan service sebelum membuat order.'],
-                            ['Wallet Ledger', 'Saldo masuk, saldo tertahan, dan refund tercatat rapi.'],
+                            ['Riwayat Jelas', 'Top up, order, saldo tertahan, dan refund tercatat rapi.'],
                             ['Banyak Service', 'Mendukung berbagai platform populer untuk kebutuhan verifikasi.'],
                             ['Banyak Negara', 'Pilih nomor dari berbagai negara sesuai kebutuhan testing.'],
-                            ['API Tersedia', 'Integrasikan Blueline OTP ke sistem Anda melalui API.'],
+                            ['Siap Dikembangkan', 'Cocok untuk pengembangan bot Telegram dan integrasi H2H.'],
                         ] as $feature)
                             <article class="min-h-48 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
                                 <div class="flex h-10 w-10 items-center justify-center rounded-md bg-emerald-50 text-sm font-black text-emerald-700 ring-1 ring-emerald-100">{{ $loop->iteration }}</div>
@@ -219,7 +219,7 @@
                         <div>
                             <p class="text-sm font-black uppercase text-emerald-700">Harga</p>
                             <h2 class="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">Harga Transparan, Cek Sebelum Order</h2>
-                            <p class="mt-4 text-sm leading-7 text-slate-600">Harga mengikuti layanan, negara, dan stok nomor yang tersedia di katalog Blueline.</p>
+                            <p class="mt-4 text-sm leading-7 text-slate-600">Harga contoh ditampilkan agar Anda punya gambaran awal. Harga final selalu tampil sebelum order dibuat.</p>
                         </div>
 
                         <div class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
@@ -238,7 +238,7 @@
                                 </div>
                             @endforeach
                             <div class="border-t border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold text-slate-500">
-                                Harga dan stok dapat berubah sewaktu-waktu mengikuti ketersediaan nomor di sistem Blueline.
+                                Harga final dan stok aktif selalu dicek kembali di halaman order sebelum pembelian dibuat.
                             </div>
                         </div>
                     </div>
@@ -274,9 +274,9 @@
 
                     <div class="mt-10 grid gap-5 md:grid-cols-3">
                         @foreach ([
-                            ['Raka Pratama', 'Owner toko digital', 'Blueline membantu proses verifikasi jadi lebih tertata. Pilih layanan, cek negara, lalu status OTP bisa dipantau dari satu halaman.'],
-                            ['Maya Salsabila', 'Admin operasional', 'Yang paling saya suka, harga terlihat sebelum order dan riwayat transaksi jelas. Jadi lebih mudah mengecek penggunaan saldo setiap hari.'],
-                            ['Dimas Arya', 'Developer bot', 'API dan dashboard-nya cukup mudah dipahami. Cocok untuk kebutuhan testing internal tanpa harus bolak-balik cek manual.'],
+                            ['Raka Pratama', 'Owner toko digital', 'Biasanya saya cek stok dulu, pilih negara, lalu pantau status order dari dashboard. Alurnya lebih gampang dijelaskan ke tim.'],
+                            ['Maya Salsabila', 'Admin operasional', 'Harga sudah kelihatan sebelum order, jadi lebih enak buat kontrol pemakaian saldo dan cek transaksi harian.'],
+                            ['Dimas Arya', 'Developer', 'Dashboard-nya membantu untuk testing internal. Nomor, status, dan kode OTP bisa dicek tanpa bolak-balik halaman.'],
                         ] as $testimonial)
                             <div class="flex min-h-64 flex-col rounded-lg border border-white/10 bg-white/10 p-5 shadow-sm">
                                 <div class="text-lg tracking-normal text-amber-300" aria-label="Rating 5 dari 5">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
@@ -294,11 +294,11 @@
             <section id="api" class="scroll-mt-24 border-b border-slate-200 bg-white pb-24 pt-24 sm:pb-28 sm:pt-28">
                 <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-8">
                     <div>
-                        <p class="text-sm font-black uppercase text-emerald-700">API Integration</p>
-                        <h2 class="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">Siapkan integrasi Blueline OTP untuk bot dan dashboard internal.</h2>
-                        <p class="mt-4 text-sm leading-7 text-slate-600">Fondasi integrasi disiapkan agar order, status SMS, riwayat, dan saldo bisa dikembangkan untuk kebutuhan H2H atau bot Telegram.</p>
+                        <p class="text-sm font-black uppercase text-emerald-700">Integrasi</p>
+                        <h2 class="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">Siap dikembangkan untuk bot Telegram dan kebutuhan H2H.</h2>
+                        <p class="mt-4 text-sm leading-7 text-slate-600">Jika Anda membutuhkan order lewat bot atau sistem internal, Blueline bisa dikembangkan dengan alur API dan webhook yang mengikuti sistem wallet serta order yang sama.</p>
                         <div class="mt-5 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-2">
-                            @foreach (['REST API ready', 'Webhook status OTP', 'Endpoint order', 'Riwayat order', 'Cek status SMS', 'Wallet balance'] as $apiFeature)
+                            @foreach (['Rencana REST API', 'Webhook callback', 'Order via bot', 'Riwayat order', 'Cek status SMS', 'Saldo wallet'] as $apiFeature)
                                 <div class="rounded-md bg-emerald-50 px-3 py-2 text-emerald-800">{{ $apiFeature }}</div>
                             @endforeach
                         </div>
@@ -306,8 +306,8 @@
                     </div>
 
                     <div class="overflow-x-auto rounded-lg bg-slate-950 p-5 font-mono text-sm text-slate-100 shadow-sm">
-                        <div class="text-emerald-300">GET /api/order?service=whatsapp&country=indonesia</div>
-                        <div class="mt-5 text-emerald-300">GET /api/status?id=ORDER_ID</div>
+                        <div class="text-emerald-300">POST /api/v1/orders</div>
+                        <div class="mt-5 text-emerald-300">GET /api/v1/orders/ORDER_ID</div>
                         <div class="mt-5 text-slate-400">{</div>
                         <div class="pl-4">"status": "waiting_sms",</div>
                         <div class="pl-4">"number": "+62 812-xxxx-xxxx",</div>
@@ -329,6 +329,8 @@
                         @foreach ([
                             ['Untuk apa Blueline OTP?', 'Untuk kebutuhan testing, verifikasi, dan integrasi yang sah. Layanan wajib digunakan sesuai aturan platform dan hukum yang berlaku.'],
                             ['Apakah saldo kembali jika order gagal?', 'Jika order gagal atau pembatalan memenuhi syarat, saldo yang tertahan akan dikembalikan sesuai status order dan kebijakan refund.'],
+                            ['Berapa lama OTP masuk?', 'Waktu OTP bergantung layanan dan jaringan tujuan. Anda bisa memantau status order langsung dari halaman order.'],
+                            ['Apakah order bisa dibatalkan?', 'Order bisa dibatalkan selama status dan aturan pembatalannya masih memenuhi syarat. Tombol batal akan tampil jika order masih eligible.'],
                             ['Bagaimana jika pembayaran sudah berhasil tapi saldo belum masuk?', 'Buka halaman invoice dan gunakan cek pembayaran. Jika masih bermasalah, buat tiket support dengan menyertakan bukti pembayaran.'],
                             ['Bagaimana jika OTP tidak masuk?', 'Pantau halaman order terlebih dahulu. Jika belum ada kode, gunakan refresh status atau batalkan order jika tombol pembatalan tersedia.'],
                             ['Kenapa stok dan harga bisa berubah?', 'Stok nomor dan harga layanan diperbarui berkala di katalog Blueline. Karena permintaan bisa berubah cepat, jumlah stok dan harga dapat menyesuaikan sewaktu-waktu.'],
