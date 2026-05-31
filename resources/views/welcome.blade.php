@@ -60,6 +60,19 @@
                             @endforeach
                         </div>
 
+                        <div class="mt-6 grid max-w-2xl gap-3 sm:grid-cols-3">
+                            @foreach ([
+                                ['Order cepat', 'Pilih layanan, negara, lalu nomor tampil di dashboard.'],
+                                ['Harga terlihat', 'Cek harga dan stok sebelum membuat order.'],
+                                ['Support tersedia', 'Buat tiket jika ada kendala pembayaran atau order.'],
+                            ] as $trust)
+                                <div class="rounded-lg border border-white/10 bg-white/5 p-4">
+                                    <div class="text-sm font-black text-white">{{ $trust[0] }}</div>
+                                    <div class="mt-2 text-xs leading-5 text-slate-400">{{ $trust[1] }}</div>
+                                </div>
+                            @endforeach
+                        </div>
+
                         <div class="mt-8 flex flex-wrap gap-3">
                             <a href="{{ auth()->check() ? route('otp.index') : route('register') }}" class="rounded-md bg-emerald-500 px-5 py-3 text-sm font-black text-white shadow-sm shadow-emerald-950/40 hover:bg-emerald-400">Mulai Sekarang</a>
                             <a href="#harga" class="rounded-md border border-white/20 bg-white/10 px-5 py-3 text-sm font-black text-white hover:bg-white/15">Lihat Harga</a>
@@ -281,14 +294,14 @@
                 <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-8">
                     <div>
                         <p class="text-sm font-black uppercase text-emerald-700">API Integration</p>
-                        <h2 class="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">Integrasikan Blueline OTP ke aplikasi, bot, atau dashboard internal.</h2>
-                        <p class="mt-4 text-sm leading-7 text-slate-600">Gunakan API untuk membuat order, mengecek status SMS, memantau saldo wallet, dan menerima update status sesuai kebutuhan sistem Anda.</p>
+                        <h2 class="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">Siapkan integrasi Blueline OTP untuk bot dan dashboard internal.</h2>
+                        <p class="mt-4 text-sm leading-7 text-slate-600">Fondasi integrasi disiapkan agar order, status SMS, riwayat, dan saldo bisa dikembangkan untuk kebutuhan H2H atau bot Telegram.</p>
                         <div class="mt-5 grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-2">
-                            @foreach (['REST API', 'Webhook status OTP', 'Dokumentasi endpoint', 'Riwayat order', 'Cek status SMS', 'Wallet balance'] as $apiFeature)
+                            @foreach (['REST API ready', 'Webhook status OTP', 'Endpoint order', 'Riwayat order', 'Cek status SMS', 'Wallet balance'] as $apiFeature)
                                 <div class="rounded-md bg-emerald-50 px-3 py-2 text-emerald-800">{{ $apiFeature }}</div>
                             @endforeach
                         </div>
-                        <a href="{{ auth()->check() ? route('dashboard') : route('register') }}" class="mt-6 inline-flex rounded-md bg-emerald-600 px-5 py-3 text-sm font-black text-white hover:bg-emerald-500">Lihat Dokumentasi API</a>
+                        <a href="{{ auth()->check() ? route('support.create') : route('register') }}" class="mt-6 inline-flex rounded-md bg-emerald-600 px-5 py-3 text-sm font-black text-white hover:bg-emerald-500">Konsultasi Integrasi</a>
                     </div>
 
                     <div class="overflow-x-auto rounded-lg bg-slate-950 p-5 font-mono text-sm text-slate-100 shadow-sm">
@@ -314,7 +327,7 @@
                     <div class="mt-10 divide-y divide-slate-200 rounded-lg border border-slate-200 bg-white">
                         @foreach ([
                             ['Untuk apa Blueline OTP?', 'Untuk kebutuhan testing, verifikasi, dan integrasi yang sah. Layanan wajib digunakan sesuai aturan platform dan hukum yang berlaku.'],
-                            ['Apakah saldo saya tercatat?', 'Ya. Sistem menyimpan riwayat wallet seperti top up, pembelian, saldo tertahan, refund, dan penyesuaian admin.'],
+                            ['Apakah saldo kembali jika order gagal?', 'Jika order gagal atau pembatalan memenuhi syarat, saldo yang tertahan akan dikembalikan sesuai status order dan kebijakan refund.'],
                             ['Bagaimana jika pembayaran sudah berhasil tapi saldo belum masuk?', 'Buka halaman invoice dan gunakan cek pembayaran. Jika masih bermasalah, buat tiket support dengan menyertakan bukti pembayaran.'],
                             ['Bagaimana jika OTP tidak masuk?', 'Pantau halaman order terlebih dahulu. Jika belum ada kode, gunakan refresh status atau batalkan order jika tombol pembatalan tersedia.'],
                             ['Kenapa stok dan harga bisa berubah?', 'Stok nomor dan harga layanan diperbarui berkala di katalog Blueline. Karena permintaan bisa berubah cepat, jumlah stok dan harga dapat menyesuaikan sewaktu-waktu.'],
