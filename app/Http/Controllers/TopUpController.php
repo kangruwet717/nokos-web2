@@ -124,12 +124,10 @@ class TopUpController extends Controller
             return $invoice->qrImage();
         }
 
-        $checkoutUrl = $invoice->checkoutUrl();
-
-        if (! $checkoutUrl) {
-            return null;
+        if ($invoice->paymentCode()) {
+            return 'https://api.qrserver.com/v1/create-qr-code/?size=720x720&data='.rawurlencode($invoice->paymentCode());
         }
 
-        return 'https://api.qrserver.com/v1/create-qr-code/?size=720x720&data='.rawurlencode($checkoutUrl);
+        return null;
     }
 }

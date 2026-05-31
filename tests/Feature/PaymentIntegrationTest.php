@@ -51,6 +51,7 @@ class PaymentIntegrationTest extends TestCase
 
         $response = $this->actingAs($user)->post('/topup', [
             'amount' => 50000,
+            'payment_method' => 'qris1',
         ]);
 
         $invoice = PaymentInvoice::firstOrFail();
@@ -93,7 +94,10 @@ class PaymentIntegrationTest extends TestCase
 
         $user = User::factory()->create();
 
-        $this->actingAs($user)->post('/topup', ['amount' => 10000]);
+        $this->actingAs($user)->post('/topup', [
+            'amount' => 10000,
+            'payment_method' => 'qris1',
+        ]);
 
         $invoice = PaymentInvoice::firstOrFail();
 
