@@ -127,7 +127,7 @@
                 </div>
             </section>
 
-            <section class="border-b border-slate-200 bg-white py-8">
+            <section class="border-b border-slate-200 bg-white py-10">
                 <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-3 px-4 sm:px-6 lg:px-8">
                     @foreach (['WhatsApp', 'Telegram', 'Instagram', 'Google', 'TikTok', 'Facebook', 'Discord', 'Shopee', 'Tokopedia', 'Gojek'] as $service)
                         <span class="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-black text-slate-700">{{ $service }}</span>
@@ -135,7 +135,7 @@
                 </div>
             </section>
 
-            <section id="fitur" class="scroll-mt-24 border-b border-slate-200 bg-white py-20 sm:py-24">
+            <section id="fitur" class="scroll-mt-24 border-b border-slate-200 bg-white pb-24 pt-20 sm:pb-28 sm:pt-24">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="max-w-2xl">
                         <p class="text-sm font-black uppercase text-emerald-700">Kenapa Pilih Blueline OTP?</p>
@@ -161,7 +161,7 @@
                 </div>
             </section>
 
-            <section id="cara-kerja" class="scroll-mt-24 border-b border-slate-200 bg-slate-50 py-20 sm:py-24">
+            <section id="cara-kerja" class="scroll-mt-24 border-b border-slate-200 bg-slate-50 pb-24 pt-24 sm:pb-28 sm:pt-28">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
                         <div>
@@ -188,7 +188,7 @@
                 </div>
             </section>
 
-            <section id="layanan" class="scroll-mt-24 border-b border-slate-200 bg-white py-20 sm:py-24">
+            <section id="layanan" class="scroll-mt-24 border-b border-slate-200 bg-white pb-24 pt-24 sm:pb-28 sm:pt-28">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                         <div>
@@ -213,7 +213,7 @@
                 </div>
             </section>
 
-            <section id="harga" class="scroll-mt-24 border-b border-slate-200 bg-slate-50 py-20 sm:py-24">
+            <section id="harga" class="scroll-mt-24 border-b border-slate-200 bg-slate-50 pb-24 pt-24 sm:pb-28 sm:pt-28">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
                         <div>
@@ -245,7 +245,7 @@
                 </div>
             </section>
 
-            <section id="negara" class="scroll-mt-24 border-b border-slate-200 bg-white py-20 sm:py-24">
+            <section id="negara" class="scroll-mt-24 border-b border-slate-200 bg-white pb-24 pt-24 sm:pb-28 sm:pt-28">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                         <div>
@@ -264,7 +264,7 @@
                 </div>
             </section>
 
-            <section class="border-b border-slate-200 bg-slate-950 py-20 text-white sm:py-24">
+            <section class="border-b border-slate-200 bg-slate-950 pb-24 pt-24 text-white sm:pb-28 sm:pt-28">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div>
                         <p class="text-sm font-black uppercase text-emerald-300">Testimoni pengguna</p>
@@ -291,7 +291,7 @@
                 </div>
             </section>
 
-            <section id="api" class="scroll-mt-24 border-b border-slate-200 bg-white py-20 sm:py-24">
+            <section id="api" class="scroll-mt-24 border-b border-slate-200 bg-white pb-24 pt-24 sm:pb-28 sm:pt-28">
                 <div class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-8">
                     <div>
                         <p class="text-sm font-black uppercase text-emerald-700">API Integration</p>
@@ -318,7 +318,7 @@
                 </div>
             </section>
 
-            <section id="faq" class="scroll-mt-24 bg-slate-50 py-20 sm:py-24">
+            <section id="faq" class="scroll-mt-24 bg-slate-50 pb-24 pt-24 sm:pb-28 sm:pt-28">
                 <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                     <div class="text-center">
                         <p class="text-sm font-black uppercase text-emerald-700">FAQ</p>
